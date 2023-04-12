@@ -9,7 +9,7 @@ RMAPI_PATH="/root/go/bin/rmapi"
 RMAPI_CONFIG_PATH="/root/.config/rmapi/rmapi.conf"
 ## Link to your rmfakecloud installation or just use rmCloud link
 RMAPI_HOST="https://remarkable.mydomain.com"
-## 
+## Define pathe to rmapi (use the command "whereis rmapi" to find out)
 RMAPI_UPLOAD_CMD="/root/go/bin/rmapi -ni put"
 SLEEP_TIME=10
 
