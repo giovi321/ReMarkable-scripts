@@ -1,5 +1,6 @@
 #!/bin/bash
 
+####### VARIABLES BEGIN #######
 # Define the variables - use the following lines in this section as the settings
 ## Folder where you intend to save the files to be uploaded to the remarkable cloud
 WATCH_FOLDER="/root/sync/sync"
@@ -9,10 +10,12 @@ RMAPI_PATH="/root/go/bin/rmapi"
 RMAPI_CONFIG_PATH="/root/.config/rmapi/rmapi.conf"
 ## Link to your rmfakecloud installation or just use rmCloud link
 RMAPI_HOST="https://remarkable.mydomain.com"
-## Define pathe to rmapi (use the command "whereis rmapi" to find out)
+## Define path to rmapi (use the command "whereis rmapi" to find out)
 RMAPI_UPLOAD_CMD="/root/go/bin/rmapi -ni put"
 SLEEP_TIME=10
+####### VARIABLES END #######
 
+####### SCRIPT BEGIN #######
 uploaded_files=()
 
 while true; do
@@ -32,6 +35,7 @@ while true; do
     else
       echo "Upload failed for $file"
     fi
+    ####### SCRIPT END #######
   done
 
   sleep $SLEEP_TIME
