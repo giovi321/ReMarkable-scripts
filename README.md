@@ -42,7 +42,7 @@ Procedure:
 - ctrl+x and "y" + enter to save
 - Run systemctl enable upload.service to enable the service
 
-## Automatically run mail.sh
+### Automatically run mail.sh
 Procedure:
 - Run crontab -e
 - Run touch /var/log/mail.log
@@ -50,7 +50,7 @@ Procedure:
 * * * * *	/root/mail.sh >>/var/log/mail.log
 - ctrl+x and "y" + enter to save
 
-## Automatically run convert.sh
+### Automatically run convert.sh
 Procedure:
 - Run nano /etc/systemd/system/convert.service
 - Copy the content of the file convert.service in this repository
