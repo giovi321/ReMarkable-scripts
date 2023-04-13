@@ -1,0 +1,11 @@
+[Unit]
+Description=Upload pdf files to rmfakecloud
+
+[Service]
+# Set here the path to your upload.sh file
+ExecStart=/root/upload.sh
+Restart=always
+User=root
+
+[Install]
+WantedBy=multi-user.target
