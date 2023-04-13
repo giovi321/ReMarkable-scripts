@@ -1,0 +1,23 @@
+[general]
+accounts = Gmail
+ui = TTYUI
+
+[Account Gmail]
+localrepository = Local
+remoterepository = Remote
+delete = true
+sync_deletes = on
+
+[Repository Local]
+type = Maildir
+localfolders = /root/Maildir
+
+[Repository Remote]
+type = Gmail
+remotehost = imap.gmail.com
+remoteuser = remarkable@mydomain.com
+remotepass = securepassword
+ssl = yes
+sslcacertfile = /etc/ssl/certs/ca-certificates.crt
+realdelete = yes
+nametrans = lambda folder: re.sub(r'^.*\(\(FROM "(email@mydomain\.com|second\.email@gmail\.com)"\)\).*$', 'INBOX.filtered', folder) if folder != 'INBOX' else 'INBOX'
