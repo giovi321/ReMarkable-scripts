@@ -11,7 +11,9 @@ Dependencies:
 ## Mail.sh
 Download attachments from a selected email account and move them to a folder synced with rmcloud/rmfakecloud through the upload.sh script.
 
-Look at the file .offlineimaprc to configure offlineimap.
+Configuration:
+- Look at the file .offlineimaprc to configure offlineimap
+- In .offlineimaprc, in the last line you can configure the trusted senders (can be more than one), don't forget to escape characters (such as "." and "_") preceding them with a "\"
 
 Features:
 - Senders can be filtered
