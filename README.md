@@ -36,7 +36,7 @@ Dependencies:
 - munpack (`sudo apt install mpack`)
 
 ## Convert.sh
-Watch a directory and automatically convert .doc, .docx, .ppt, .pptx files to pdf
+Watch a directory and automatically convert .docx, .pptx files to pdf
 
 Configuration:
 - Change the variables in the variables section of the script
