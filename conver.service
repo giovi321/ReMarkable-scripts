@@ -1,0 +1,11 @@
+[Unit]
+Description=rmfakecloud
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+# Set here the path to your conver.sh file
+ExecStart=/root/convert.sh
+
+[Install]
+WantedBy=multi-user.target
