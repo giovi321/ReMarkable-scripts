@@ -1,7 +1,7 @@
 # ReMarkable-scripts
 Server-side bash scripts to use the ReMarkable tablet at its full potential.
 
-The script work best if used all together.
+The scripts work best if used all together.
 
 See the bottom of this file for instructions on how to demonize/run with cron.
 
