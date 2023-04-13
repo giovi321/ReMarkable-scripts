@@ -41,6 +41,9 @@ Configuration:
 - Change the variables in the variables section of the script
 - Run `chmod +x convert.sh`
 
+Dependencies
+- Unoconv (`sudo apt install unoconv`)
+
 ## How to automatically run the scripts
 In order to automatically run the scripts we will use cron and systemd.
 
