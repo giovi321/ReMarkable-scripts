@@ -11,7 +11,7 @@ Watch a folder on your server for new files, when a new file appear upload it to
 
 Dependencies:
 - rmapi (https://github.com/juruen/rmapi)
-- inotify-tools (sudo apt install inotify-tools)
+- inotify-tools (`sudo apt install inotify-tools`)
 
 ## Mail.sh
 Download attachments from a selected email account and move them to a folder synced with rmcloud/rmfakecloud through the upload.sh script.
@@ -26,8 +26,8 @@ Features:
 
 Dependencies:
 - cron (usually installed by default on linux)
-- offlineimap (sudo apt install offlineimap)
-- munpack (sudo apt install mpack)
+- offlineimap (`sudo apt install offlineimap`)
+- munpack (`sudo apt install mpack`)
 
 ## Convert.sh
 Watch a directory and automatically convert .doc, .docx, .ppt, .pptx files to pdf
@@ -37,22 +37,22 @@ In order to automatically run the scripts we will use cron and systemd.
 
 ### Automatically run upload.sh
 Procedure:
-- Run nano /etc/systemd/system/upload.service
+- Run `nano /etc/systemd/system/upload.service`
 - Copy the content of the file upload.service in this repository
 - ctrl+x and "y" + enter to save
-- Run systemctl enable upload.service to enable the service
+- Run `systemctl enable upload.service` to enable the service
 
 ### Automatically run mail.sh
 Procedure:
-- Run crontab -e
-- Run touch /var/log/mail.log
+- Run `crontab -e`
+- Run `touch /var/log/mail.log`
 - paste the following line at the end of the file in a new line:
-* * * * *	/root/mail.sh >>/var/log/mail.log
+`* * * * *	/root/mail.sh >>/var/log/mail.log`
 - ctrl+x and "y" + enter to save
 
 ### Automatically run convert.sh
 Procedure:
-- Run nano /etc/systemd/system/convert.service
+- Run `nano /etc/systemd/system/convert.service`
 - Copy the content of the file convert.service in this repository
 - ctrl+x and "y" + enter to save
-- Run systemctl enable convert.service to enable the service
+- Run `systemctl enable convert.service` to enable the service
