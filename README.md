@@ -22,7 +22,7 @@ Download attachments from a selected email account and move them to a folder syn
 
 Configuration:
 - Look at the file .offlineimaprc to configure offlineimap
-- In .offlineimaprc, in the last line you can configure the trusted senders (can be more than one), don't forget to escape characters (such as `.` and `_`) preceding them with a backslash `\`
+- In .offlineimaprc, in the last line you can configure the trusted senders (can be more than one, separated by `|` like in the example file provided), don't forget to escape characters (such as `.` and `_`) preceding them with a backslash `\`
 - Run `chmod +x mail.sh`
 - Change the settings in .offlineimaprc and place it in the user root folder
 
