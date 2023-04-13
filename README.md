@@ -24,6 +24,7 @@ Configuration:
 - Look at the file .offlineimaprc to configure offlineimap
 - In .offlineimaprc, in the last line you can configure the trusted senders (can be more than one), don't forget to escape characters (such as "." and "_") preceding them with a "\"
 - Run `chmod +x mail.sh`
+- Change the settings in .offlineimaprc and place it in the user root folder
 
 Features:
 - Senders can be filtered
