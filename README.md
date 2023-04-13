@@ -7,7 +7,7 @@ See the bottom of this file for instructions on how to demonize/run with cron.
 
 
 ## Upload.sh
-Watch a folder on your server for new files, when a new file appear upload it to rmcloud/rmfakecloud
+Watch a folder on your server for new files, when a new file appears upload it to rmcloud/rmfakecloud
 
 Configuration:
 - Change the variables in the variables section of the script
