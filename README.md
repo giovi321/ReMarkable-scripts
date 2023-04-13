@@ -9,6 +9,10 @@ See the bottom of this file for instructions on how to demonize/run with cron.
 ## Upload.sh
 Watch a folder on your server for new files, when a new file appear upload it to rmcloud/rmfakecloud
 
+Configuration:
+- Change the variables in the variables section of the script
+- Run `chmod +x upload.sh`
+
 Dependencies:
 - rmapi (https://github.com/juruen/rmapi)
 - inotify-tools (`sudo apt install inotify-tools`)
@@ -19,6 +23,7 @@ Download attachments from a selected email account and move them to a folder syn
 Configuration:
 - Look at the file .offlineimaprc to configure offlineimap
 - In .offlineimaprc, in the last line you can configure the trusted senders (can be more than one), don't forget to escape characters (such as "." and "_") preceding them with a "\"
+- Run `chmod +x mail.sh`
 
 Features:
 - Senders can be filtered
@@ -31,6 +36,10 @@ Dependencies:
 
 ## Convert.sh
 Watch a directory and automatically convert .doc, .docx, .ppt, .pptx files to pdf
+
+Configuration:
+- Change the variables in the variables section of the script
+- Run `chmod +x convert.sh`
 
 ## How to automatically run the scripts
 In order to automatically run the scripts we will use cron and systemd.
@@ -48,11 +57,11 @@ Procedure:
 - Run `touch /var/log/mail.log`
 - paste the following line at the end of the file in a new line:
 `* * * * *	/root/mail.sh >>/var/log/mail.log`
-- ctrl+x and "y" + enter to save
+- Press ctrl+x and "y" + enter to save
 
 ### Automatically run convert.sh
 Procedure:
 - Run `nano /etc/systemd/system/convert.service`
 - Copy the content of the file convert.service in this repository
-- ctrl+x and "y" + enter to save
+- Press ctrl+x and "y" + enter to save
 - Run `systemctl enable convert.service` to enable the service
