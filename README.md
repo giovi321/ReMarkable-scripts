@@ -5,9 +5,23 @@ The scripts work best if used all together.
 
 See the bottom of this file for instructions on how to demonize/run with cron.
 
+The scripts do the following:
+- Upload.sh - Watch a folder on your server for new files, when a new file appears upload it to rmcloud/rmfakecloud
+- Mail.sh - Download attachments from a selected email account and move them to a folder synced with rmcloud/rmfakecloud through the upload.sh script
+- Convert.sh - Watch a directory and automatically convert .docx, .pptx files to pdf
+
+# License
+The content of this repository is licensed under the [WTFPL](http://www.wtfpl.net/).
+
+```
+Copyright © 2023 giovi321
+This work is free. You can redistribute it and/or modify it under the
+terms of the Do What The Fuck You Want To Public License, Version 2,
+as published by Sam Hocevar. See the LICENSE file for more details.
+```
 
 ## Upload.sh
-Watch a folder on your server for new files, when a new file appears upload it to rmcloud/rmfakecloud
+Watch a folder on your server for new files, when a new file appears upload it to rmcloud/rmfakecloud.
 
 Configuration:
 - Change the variables in the variables section of the script
@@ -36,7 +50,7 @@ Dependencies:
 - munpack (`sudo apt install mpack`)
 
 ## Convert.sh
-Watch a directory and automatically convert .docx, .pptx files to pdf
+Watch a directory and automatically convert .docx, .pptx files to .pdf.
 
 Configuration:
 - Change the variables in the variables section of the script
