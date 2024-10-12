@@ -31,6 +31,12 @@ Dependencies:
 - rmapi (https://github.com/juruen/rmapi)
 - inotify-tools (`sudo apt install inotify-tools`)
 
+Fist time use:
+- launch the command
+`RMAPI_HOST="https://remarkable.mydomain.com" RMAPI_CONFIG_PATH="/root/.config/rmapi/rmapi.conf" /root/go/bin/rmapi`
+- Generate and enter the code from remarkable cloud or rmfakecloud
+- type `exit` to save the configuration
+
 ## Mail.sh
 Download attachments from a selected email account and move them to a folder synced with rmcloud/rmfakecloud through the upload.sh script.
 
