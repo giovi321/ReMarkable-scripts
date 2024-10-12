@@ -6,7 +6,7 @@
 ## Define the directory where attachments will be saved
 SAVE_DIR="/root/sync/sync"
 ## Define the command to upload PDFs to reMarkable
-RMAPI_CMD="RMAPI_CONFIG=/root/.config/rmapi/rmapi.conf RMAPI_HOST=https://remarkable.mydomain.com /root/go/bin/rmapi -ni pu>
+RMAPI_CMD="RMAPI_CONFIG=/root/.config/rmapi/rmapi.conf RMAPI_HOST=https://remarkable.mydomain.com /root/go/bin/rmapi -ni put"
 ####### VARIABLES END #######
 
 
