@@ -3,6 +3,8 @@ Server-side bash scripts to use the ReMarkable tablet at its full potential.
 
 The scripts work best if used all together.
 
+Make sure that you read all the comments in each and every file to set them up correctly.
+
 See the bottom of this file for instructions on how to demonize/run with cron.
 
 The scripts do the following:
@@ -19,6 +21,9 @@ This work is free. You can redistribute it and/or modify it under the
 terms of the Do What The Fuck You Want To Public License, Version 2,
 as published by Sam Hocevar. See the LICENSE file for more details.
 ```
+
+## rmapi is being discontinued
+Unfortunately rmapi is not being developed anymore. As long as it works, I will stick to it. If you have any other recommendation, please open an issue in this repository.
 
 ## upload.sh
 Watch a folder on your server for new files, when a new file appears upload it to rmcloud/rmfakecloud.
