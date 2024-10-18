@@ -25,6 +25,7 @@ then
 else
   echo "Directory already exists."
 fi
+# The directory "/root/Maildir/" is what you have selected in the .offlineimaprc configuration file. Make sure it matches
 munpack -f -t -C /tmp/munpack-extracted-files /root/Maildir/INBOX/new/*
 
 # Loop through all files in the directory
@@ -35,6 +36,7 @@ done
 
 # Clean-up files
 mv /tmp/munpack-extracted-files/*.pdf /root/sync/sync/
+# The directory "/root/Maildir/" is what you have selected in the .offlineimaprc configuration file. Make sure it matches
 rm Maildir/INBOX/new/*
 rm /tmp/munpack-extracted-files/part*
 
