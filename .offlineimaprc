@@ -10,6 +10,7 @@ sync_deletes = on
 
 [Repository Local]
 type = Maildir
+# Choose the location of where the downloaded emails will be stored. Make sure it matches the directory in row 29 of the mail.sh file
 localfolders = /root/Maildir
 
 [Repository Remote]
@@ -20,4 +21,8 @@ remotepass = securepassword
 ssl = yes
 sslcacertfile = /etc/ssl/certs/ca-certificates.crt
 realdelete = yes
-nametrans = lambda folder: re.sub(r'^.*\(\(FROM "(email@mydomain\.com|second\.email@gmail\.com)"\)\).*$', 'INBOX.filtered', folder) if folder != 'INBOX' else 'INBOX'
+# Here you can choose the trusted senders by entering email addresses
+# Every email address is separated by the character "|"
+# If you have non-alphanumeric characters in the email address of the trusted senders (for example "."), make sure to escape them by preceding them with a backslash "\"
+# The at "@" symbol does not need to be escaped with a backslash
+nametrans = lambda folder: re.sub(r'^.*\(\(FROM "(email@mydomain\.com|second\_email@gmail\.com)"\)\).*$', 'INBOX.filtered', folder) if folder != 'INBOX' else 'INBOX'
