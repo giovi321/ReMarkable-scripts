@@ -20,7 +20,7 @@ terms of the Do What The Fuck You Want To Public License, Version 2,
 as published by Sam Hocevar. See the LICENSE file for more details.
 ```
 
-## Upload.sh
+## upload.sh
 Watch a folder on your server for new files, when a new file appears upload it to rmcloud/rmfakecloud.
 
 Configuration:
@@ -37,14 +37,17 @@ Fist time use:
 - Generate and enter the code from remarkable cloud or rmfakecloud
 - type `exit` to save the configuration
 
-## Mail.sh
+## mail.sh
 Download attachments from a selected email account and move them to a folder synced with rmcloud/rmfakecloud through the upload.sh script.
 
 Configuration:
-- Look at the file .offlineimaprc to configure offlineimap (the location of the file is `~/.offlineimaprc`)
-- In .offlineimaprc, in the last line you can configure the trusted senders (can be more than one, separated by `|` like in the example file provided), don't forget to escape characters (such as `.` and `_`) preceding them with a backslash `\`
+- Look at the file .offlineimaprc to configure offlineimap
+  - the location of the file is `~/.offlineimaprc`
+- In .offlineimaprc, in the last line you can configure the trusted senders
+  - There can be more than one trusted sender, separated by `|` like in the example file provided
+  - Don't forget to escape characters (such as `.` and `_`) preceding them with a backslash `\`
 - Run `chmod +x mail.sh`
-- Change the settings in .offlineimaprc and place it in the user root folder
+- Change the settings in .offlineimaprc and place it in the user root folder `~/.offlineimaprc`
 
 Features:
 - Senders can be filtered
@@ -55,7 +58,7 @@ Dependencies:
 - offlineimap (`sudo apt install offlineimap`)
 - munpack (`sudo apt install mpack`)
 
-## Convert.sh
+## convert.sh
 Watch a directory and automatically convert .docx, .pptx files to .pdf.
 
 Configuration:
