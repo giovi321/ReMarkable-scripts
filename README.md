@@ -6,9 +6,9 @@ The scripts work best if used all together.
 See the bottom of this file for instructions on how to demonize/run with cron.
 
 The scripts do the following:
-- Upload.sh - Watch a folder on your server for new files, when a new file appears upload it to rmcloud/rmfakecloud
-- Mail.sh - Download attachments from a selected email account and move them to a folder synced with rmcloud/rmfakecloud through the upload.sh script
-- Convert.sh - Watch a directory and automatically convert .docx, .pptx files to pdf
+- upload.sh - Watch a folder on your server for new files, when a new file appears upload it to rmcloud/rmfakecloud
+- mail.sh - Download attachments from a selected email account and move them to a folder synced with rmcloud/rmfakecloud through the upload.sh script
+- convert.sh - Watch a directory and automatically convert .docx, .pptx files to pdf
 
 # License
 The content of this repository is licensed under the [WTFPL](http://www.wtfpl.net/).
