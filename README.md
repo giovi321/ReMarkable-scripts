@@ -45,6 +45,8 @@ Fist time use:
 ## mail.sh
 Download attachments from a selected email account and move them to a folder synced with rmcloud/rmfakecloud through the upload.sh script.
 
+PDFs go to the upload folder, .docx and .pptx stay in the extraction directory for convert.sh, and every other extracted file (message bodies, signature images) is deleted.
+
 Configuration:
 - Look at the file .offlineimaprc to configure offlineimap
   - the location of the file is `~/.offlineimaprc`

@@ -41,6 +41,14 @@ done
 if [ ${#new_mail[@]} -gt 0 ]; then
   rm -f "${new_mail[@]}"
 fi
-rm -f "$EXTRACT_DIR"/part*
+# Everything else munpack extracted is of no use: message bodies (part1, part2),
+# signature images, inline logos. Only .docx and .pptx stay, for convert.sh
+for fname in "$EXTRACT_DIR"/*
+do
+  case "$fname" in
+    *.docx|*.pptx) ;;
+    *) rm -f "$fname" ;;
+  esac
+done
 
 ####### SCRIPT END #######
