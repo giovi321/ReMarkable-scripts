@@ -17,22 +17,36 @@ SLEEP_TIME="${SLEEP_TIME:-10}"
 ####### SCRIPT BEGIN #######
 # Without nullglob an empty folder hands rmapi the literal "*.pdf" every cycle
 shopt -s nullglob
-uploaded_files=()
+
+# rmapi refuses a name the tablet already has ("entry already exists"). Rename the
+# local file to the next " (n)" and let the next cycle upload it under that name
+next_name() {
+  local base n=2
+  base="$(basename "$1" .pdf)"
+  if [[ "$base" =~ ^(.*)\ \(([0-9]+)\)$ ]]; then
+    base="${BASH_REMATCH[1]}"
+    n=$((BASH_REMATCH[2] + 1))
+  fi
+  while [ -e "$WATCH_FOLDER/$base ($n).pdf" ]; do
+    n=$((n+1))
+  done
+  echo "$WATCH_FOLDER/$base ($n).pdf"
+}
 
 while true; do
-  new_files=()
   for file in "$WATCH_FOLDER"/*.pdf; do
-    if ! [[ "${uploaded_files[*]}" =~ "${file}" ]]; then
-      new_files+=("$file")
-    fi
-  done
-
-  for file in "${new_files[@]}"; do
     sleep "$SLEEP_TIME"
-    if RMAPI_CONFIG=$RMAPI_CONFIG_PATH RMAPI_HOST=$RMAPI_HOST "$RMAPI_PATH" -ni put "$file"; then
+    [ -f "$file" ] || continue
+    out="$(RMAPI_CONFIG=$RMAPI_CONFIG_PATH RMAPI_HOST=$RMAPI_HOST "$RMAPI_PATH" -ni put "$file" 2>&1)"
+    rc=$?
+    echo "$out"
+    if [ $rc -eq 0 ] && ! grep -q "ERROR" <<<"$out"; then
       echo "Successfully uploaded $file"
-      uploaded_files+=("$file")
       rm "$file"
+    elif grep -q "entry already exists" <<<"$out"; then
+      renamed="$(next_name "$file")"
+      mv "$file" "$renamed"
+      echo "$(basename "$file") already exists on the tablet, retrying as $(basename "$renamed")"
     else
       echo "Upload failed for $file"
     fi

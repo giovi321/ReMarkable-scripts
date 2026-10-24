@@ -8,7 +8,7 @@
 SAVE_DIR="${SAVE_DIR:-/root/sync/sync}"
 ## The Maildir selected as localfolders in the .offlineimaprc configuration file. Make sure it matches
 MAIL_DIR="${MAIL_DIR:-/root/Maildir}"
-## Where munpack extracts attachments. convert.sh watches this directory too
+## Where attachments are extracted to. convert.sh watches this directory too
 EXTRACT_DIR="${EXTRACT_DIR:-/tmp/munpack-extracted-files}"
 ####### VARIABLES END #######
 
@@ -22,27 +22,33 @@ echo $(date +'%Y-%m-%d %H:%M:%S'): Script starting.
 # Sync emails using offlineimap
 offlineimap -o
 
-# Extract all attachments
+# Extract all attachments, keeping their names (extract.py sits next to this script)
 mkdir -p "$EXTRACT_DIR"
 new_mail=("$MAIL_DIR"/INBOX/new/*)
-# munpack reads stdin when given no files, so only call it when there is mail
 if [ ${#new_mail[@]} -gt 0 ]; then
-  munpack -f -t -C "$EXTRACT_DIR" "${new_mail[@]}"
+  python3 "$(dirname "$(readlink -f "$0")")/extract.py" "$EXTRACT_DIR" "${new_mail[@]}"
 fi
 
-# Rename every PDF so attachments with the same name do not overwrite each other,
-# then hand them to upload.sh
+# Hand every PDF to upload.sh under its own name. A name already waiting in the
+# upload folder gets " (2)", " (3)" and so on rather than overwriting it
 for fname in "$EXTRACT_DIR"/*.pdf
 do
-  mv "$fname" "$SAVE_DIR/$(basename "$fname")-$RANDOM.pdf"
+  base="$(basename "$fname" .pdf)"
+  dest="$SAVE_DIR/$base.pdf"
+  n=2
+  while [ -e "$dest" ]; do
+    dest="$SAVE_DIR/$base ($n).pdf"
+    n=$((n+1))
+  done
+  mv "$fname" "$dest"
 done
 
 # Clean-up files
 if [ ${#new_mail[@]} -gt 0 ]; then
   rm -f "${new_mail[@]}"
 fi
-# Everything else munpack extracted is of no use: message bodies (part1, part2),
-# signature images, inline logos. Only .docx and .pptx stay, for convert.sh
+# Every other attachment is of no use here: signature images, inline logos,
+# calendar invites. Only .docx and .pptx stay, for convert.sh
 for fname in "$EXTRACT_DIR"/*
 do
   case "$fname" in

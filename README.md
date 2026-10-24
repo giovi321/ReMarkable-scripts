@@ -45,7 +45,7 @@ Fist time use:
 ## mail.sh
 Download attachments from a selected email account and move them to a folder synced with rmcloud/rmfakecloud through the upload.sh script.
 
-PDFs go to the upload folder, .docx and .pptx stay in the extraction directory for convert.sh, and every other extracted file (message bodies, signature images) is deleted.
+Attachments keep their original names, spaces and accents included. PDFs go to the upload folder, .docx and .pptx stay in the extraction directory for convert.sh, and every other attachment (signature images, logos) is deleted. A name already waiting gets " (2)", " (3)" and so on, and upload.sh does the same when the tablet already has a document of that name.
 
 Configuration:
 - Look at the file .offlineimaprc to configure offlineimap
@@ -63,7 +63,7 @@ Features:
 Dependencies:
 - cron (usually installed by default on linux)
 - offlineimap (`sudo apt install offlineimap`)
-- munpack (`sudo apt install mpack`)
+- python3, which offlineimap already needs, for `extract.py`. Keep `extract.py` in the same directory as `mail.sh`
 
 ## convert.sh
 Watch a directory and automatically convert .docx, .pptx files to .pdf.
@@ -78,7 +78,7 @@ Dependencies
 - Unoconv (`sudo apt install unoconv`)
 
 ## Running under Docker
-`ghcr.io/giovi321/remarkable-scripts` carries the three scripts with offlineimap, munpack, inotify-tools and curl. Run it as three containers from one image, one per script, sharing the sync folder and the munpack directory:
+`ghcr.io/giovi321/remarkable-scripts` carries the three scripts and `extract.py` with offlineimap, inotify-tools and curl. Run it as three containers from one image, one per script, sharing the sync folder and the munpack directory:
 
 ```yaml
 services:

@@ -20,16 +20,33 @@ RETRY_INTERVAL="${RETRY_INTERVAL:-600}"
 
 
 ####### SCRIPT BEGIN #######
+# Output path for a document: its own name with .pdf, plus " (2)", " (3)" and so on
+# when a PDF of that name is already waiting
+pdf_name() {
+    local base dest n=2
+    base="$(basename "${1%.*}")"
+    dest="$OUTPUT_DIR/$base.pdf"
+    while [ -e "$dest" ]; do
+        dest="$OUTPUT_DIR/$base ($n).pdf"
+        n=$((n+1))
+    done
+    echo "$dest"
+}
+
 convert() {
-    local path="$1" name
-    name="$(basename "$path")"
+    local path="$1" dest="$2"
     if [ -n "$STIRLING_URL" ]; then
         curl -sSf -m 300 ${STIRLING_API_KEY:+-H "X-API-KEY: $STIRLING_API_KEY"} \
             -F "fileInput=@$path" \
-            -o "$OUTPUT_DIR/${name%.*}.pdf" \
+            -o "$dest" \
             "$STIRLING_URL/api/v1/convert/file/pdf"
     else
-        unoconv -f pdf -o "$OUTPUT_DIR" "$path"
+        local tmpdir rc
+        tmpdir="$(mktemp -d)"
+        unoconv -f pdf -o "$tmpdir" "$path" && mv "$tmpdir"/*.pdf "$dest"
+        rc=$?
+        rm -rf "$tmpdir"
+        return $rc
     fi
 }
 
@@ -37,12 +54,14 @@ handle() {
     local FILE="$1"
     # Already handled, when both watched directories are the same one
     [ -f "$FILE" ] || return 0
-    echo "Converting $FILE to PDF..."
-    if convert "$FILE"; then
+    local dest
+    dest="$(pdf_name "$FILE")"
+    echo "Converting $FILE to $dest..."
+    if convert "$FILE" "$dest"; then
         rm "$FILE"
         echo "Deleting $FILE"
     else
-        rm -f "$OUTPUT_DIR/$(basename "${FILE%.*}").pdf"
+        rm -f "$dest"
         echo "Conversion failed for $FILE, left in place, retrying within ${RETRY_INTERVAL}s"
     fi
 }
