@@ -66,6 +66,8 @@ Dependencies:
 ## convert.sh
 Watch a directory and automatically convert .docx, .pptx files to .pdf.
 
+Files already waiting when the script starts are converted first, and a file whose conversion failed stays in place and is tried again every `RETRY_INTERVAL` seconds (default 600).
+
 Configuration:
 - Change the variables in the variables section of the script
 - Run `chmod +x convert.sh`

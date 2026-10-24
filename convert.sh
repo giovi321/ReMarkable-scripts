@@ -14,6 +14,8 @@ OUTPUT_DIR="${OUTPUT_DIR:-/root/sync/sync}"
 ## server has login enabled
 STIRLING_URL="${STIRLING_URL:-}"
 STIRLING_API_KEY="${STIRLING_API_KEY:-}"
+## How often, in seconds, files left behind by a failed conversion are tried again
+RETRY_INTERVAL="${RETRY_INTERVAL:-600}"
 ####### VARIABLES END #######
 
 
@@ -31,21 +33,36 @@ convert() {
     fi
 }
 
+handle() {
+    local FILE="$1"
+    # Already handled, when both watched directories are the same one
+    [ -f "$FILE" ] || return 0
+    echo "Converting $FILE to PDF..."
+    if convert "$FILE"; then
+        rm "$FILE"
+        echo "Deleting $FILE"
+    else
+        rm -f "$OUTPUT_DIR/$(basename "${FILE%.*}").pdf"
+        echo "Conversion failed for $FILE, left in place, retrying within ${RETRY_INTERVAL}s"
+    fi
+}
+
+# Everything waiting in both directories: files that arrived while the script was
+# not running, and files a failed conversion left behind
+sweep() {
+    local f
+    for f in "$WATCH_DIR1"/*.docx "$WATCH_DIR1"/*.pptx "$WATCH_DIR2"/*.docx "$WATCH_DIR2"/*.pptx; do
+        handle "$f"
+    done
+}
+
+shopt -s nullglob
 mkdir -p "$WATCH_DIR1" "$WATCH_DIR2"
 while true; do
-    # close_write and moved_to fire once per finished file; watching every event
-    # converted the same file several times while it was still being written
-    inotifywait -q -m -e close_write -e moved_to --format '%w%f' "$WATCH_DIR1" "$WATCH_DIR2" | while read -r FILE; do
-        if [[ "$FILE" =~ \.(pptx|docx)$ ]]; then
-            echo "Converting $FILE to PDF..."
-            if convert "$FILE"; then
-                rm "$FILE"
-                echo "Deleting $FILE"
-            else
-                rm -f "$OUTPUT_DIR/$(basename "${FILE%.*}").pdf"
-                echo "Conversion failed for $FILE, left in place"
-            fi
-        fi
-    done
+    sweep
+    # Wait for one finished file (close_write, moved_to) or for the retry interval,
+    # then sweep again. A file that lands between the sweep and the wait is picked up
+    # at the next timeout at the latest
+    inotifywait -q -t "$RETRY_INTERVAL" -e close_write -e moved_to "$WATCH_DIR1" "$WATCH_DIR2" >/dev/null
 done
 ####### SCRIPT END #######
