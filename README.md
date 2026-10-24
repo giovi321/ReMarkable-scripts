@@ -73,6 +73,44 @@ Configuration:
 Dependencies
 - Unoconv (`sudo apt install unoconv`)
 
+## Running under Docker
+`ghcr.io/giovi321/remarkable-scripts` carries the three scripts with offlineimap, munpack, inotify-tools and curl. Run it as three containers from one image, one per script, sharing the sync folder and the munpack directory:
+
+```yaml
+services:
+  mail:
+    image: ghcr.io/giovi321/remarkable-scripts:latest
+    command: ["bash", "-c", "while :; do /app/mail.sh; sleep 60; done"]
+    volumes:
+      - ./Maildir:/root/Maildir
+      - ./offlineimap:/root/.offlineimap
+      - ./offlineimaprc:/root/.offlineimaprc:ro
+      - ./sync:/root/sync
+      - munpack:/tmp/munpack-extracted-files
+  convert:
+    image: ghcr.io/giovi321/remarkable-scripts:latest
+    command: ["/app/convert.sh"]
+    environment:
+      STIRLING_URL: http://stirling-pdf:8080
+      STIRLING_API_KEY: ${STIRLING_API_KEY:-}
+    volumes:
+      - ./sync:/root/sync
+      - munpack:/tmp/munpack-extracted-files
+  upload:
+    image: ghcr.io/giovi321/remarkable-scripts:latest
+    command: ["/app/upload.sh"]
+    environment:
+      RMAPI_HOST: https://remarkable.mydomain.com
+    volumes:
+      - ./sync:/root/sync
+      - ./rmapi/rmapi:/root/go/bin/rmapi:ro
+      - ./rmapi/config:/root/.config/rmapi
+volumes:
+  munpack:
+```
+
+rmapi is not in the image. Mount a binary you already paired, plus its configuration directory read-write, since rmapi refreshes its token there. The image has no LibreOffice, so `convert.sh` needs `STIRLING_URL`. Every variable in the scripts' variables sections can be set this way.
+
 ## How to automatically run the scripts
 In order to automatically run the scripts we will use cron and systemd.
 

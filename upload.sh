@@ -2,20 +2,21 @@
 
 ####### VARIABLES BEGIN #######
 # Define the variables - use the following lines in this section as the settings
+# Each one can also be set from the environment, which is how the Docker image is configured
 ## Folder where you intend to save the files to be uploaded to the remarkable cloud
-WATCH_FOLDER="/root/sync/sync"
+WATCH_FOLDER="${WATCH_FOLDER:-/root/sync/sync}"
 ## Path to rmapi (use the command "whereis rmapi" to find it out)
-RMAPI_PATH="/root/go/bin/rmapi"
+RMAPI_PATH="${RMAPI_PATH:-/root/go/bin/rmapi}"
 ## Path to the configuration file of rmapi
-RMAPI_CONFIG_PATH="/root/.config/rmapi/rmapi.conf"
+RMAPI_CONFIG_PATH="${RMAPI_CONFIG_PATH:-/root/.config/rmapi/rmapi.conf}"
 ## Link to your rmfakecloud installation or just use rmCloud link
-RMAPI_HOST="https://remarkable.mydomain.com"
-## Define path to rmapi (use the command "whereis rmapi" to find out)
-RMAPI_UPLOAD_CMD="/root/go/bin/rmapi -ni put"
-SLEEP_TIME=10
+RMAPI_HOST="${RMAPI_HOST:-https://remarkable.mydomain.com}"
+SLEEP_TIME="${SLEEP_TIME:-10}"
 ####### VARIABLES END #######
 
 ####### SCRIPT BEGIN #######
+# Without nullglob an empty folder hands rmapi the literal "*.pdf" every cycle
+shopt -s nullglob
 uploaded_files=()
 
 while true; do
@@ -27,16 +28,16 @@ while true; do
   done
 
   for file in "${new_files[@]}"; do
-    sleep $SLEEP_TIME
-    if RMAPI_CONFIG=$RMAPI_CONFIG_PATH RMAPI_HOST=$RMAPI_HOST $RMAPI_UPLOAD_CMD "$file"; then
+    sleep "$SLEEP_TIME"
+    if RMAPI_CONFIG=$RMAPI_CONFIG_PATH RMAPI_HOST=$RMAPI_HOST "$RMAPI_PATH" -ni put "$file"; then
       echo "Successfully uploaded $file"
       uploaded_files+=("$file")
       rm "$file"
     else
       echo "Upload failed for $file"
     fi
-    ####### SCRIPT END #######
   done
 
-  sleep $SLEEP_TIME
+  sleep "$SLEEP_TIME"
 done
+####### SCRIPT END #######
