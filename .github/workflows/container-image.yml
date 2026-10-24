@@ -44,4 +44,4 @@ jobs:
       - name: Check the tools are present
         run: |
           docker run --rm "ghcr.io/${{ github.repository_owner }}/remarkable-scripts:sha-$SHORT_SHA" \
-            bash -c 'for t in offlineimap munpack inotifywait curl; do command -v "$t" >/dev/null || { echo "missing $t"; exit 1; }; done; for s in /app/*.sh; do bash -n "$s" || exit 1; done'
+            bash -c 'for t in offlineimap python3 inotifywait curl; do command -v "$t" >/dev/null || { echo "missing $t"; exit 1; }; done; for s in /app/*.sh; do bash -n "$s" || exit 1; done; python3 -m py_compile /app/extract.py'
